@@ -16,7 +16,9 @@ This is the initial minimum viable solution. svgs and canvas elements are not wo
 As you can see, you are required to include jquery in your page before googose
 
 ``` javascript
-<script type="text/javascript" src="http://   ajax.googleapis.com/ajax/libs/jquery/1.6.2/   jquery.min.js"></script>                      <script type="text/javascript" src="http://   github.com/aadel112/googoose/js/jquery.googoose.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>                      
+
+<script type="text/javascript" src="http://github.com/aadel112/googoose/js/jquery.googoose.js"></script>
 ```
 
 I see no reason that jquery 1.5 or earlier wouldn't be supported, but I haven't tested this.
