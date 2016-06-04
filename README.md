@@ -71,4 +71,4 @@ The content that is rendered to a Word doc will need to be wrapped in a div with
 I'm still struggling with getting svg and canvas images to display properly. To me this is a critical feature that I want to provide, and it's one of the primary reasons for doing this in javascript. Ideally, the developer will be able to simply wait for an event trigger that signifies that all svgs/canvas images have finished being rendered, and then be able to invoke googoose.
 
 ## More
-You can visit my [blog](http://aadel112.com). I plan on putting more content regarding googoose on there. You can [contribute by donating](paypal.me/aadel112). Even $5 would be greatly appreciated. 
+You can visit my [blog](http://aadel112.com). I plan on putting more content regarding googoose on there. You can [contribute by donating](https://www.paypal.me/aadel112/5). Even $5 would be greatly appreciated. 
