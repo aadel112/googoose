@@ -10,17 +10,21 @@
     $.fn.googoose = function( options ) {
 
         var GG = $.fn.googoose;
+        var ii = 0,
+            gghtml = '',
+            imgdata = '',
+            now = new Date().getTime();
+//            partstring = '----Googoose.Boundary';
+
+//        imgdata = '\n\nMIME-Version: 1.0\nContent-Type: multipart/related;\nboundary="' + partstring + '"\n\n';
 
         GG.finish = function() {
            if(options.download) {
-                //html5 attr, not supported in ie yet
                 //forces download of word doc
-                var link = document.createElement('a');
-                link.download = options.filename ? options.filename : new Date().getUTCMilliseconds() + '.doc' ;
-                link.href = 'data:,' + options.html;
-                link.click();
+                var file = new File([gghtml], options.filename, {type: "applicatoin/msword;charset=utf-8"});
+                saveAs(file);
             } else {
-                document.write( options.html );
+                document.write( gghtml );
             } 
         }
 
@@ -30,16 +34,16 @@
             headerfooterid: 'googoose-hdrftrtbl',
             margins: '1.0in',
             zoom: '75',
-            filename: null,
+            filename: 'Doc1_' + now + '.doc',
             size: '8.5in 11.0in',
             display: 'Print',
             lang: 'en-US',
             download: true,
             toc: 'div.googoose.toc',
             pagebreak: 'div.googoose.break',
-//TODO - handle svgs by converting them to canvas then to pngs
-//            convertsvgs: true,
+            convertsvgs: true,
             convertcanvas: true,
+            imgdir: 'img',
             headerarea: 'div.googoose.header',
             footerarea: 'div.googoose.footer',
             headerid: 'googoose-header',
@@ -48,8 +52,28 @@
             footermargin: '.5in',
             currentpage: 'span.googoose.currentpage',
             totalpage: 'span.googoose.totalpage',
+            htmlboundary: '--',
             finishaction: GG.finish
         }, options );
+
+		//http://requiremind.com/memoization-speed-up-your-javascript-performance/
+       	GG.memoize = function(fn, resolver) {
+		  var memoized = function() {
+			resolver  = resolver || JSON.stringify;
+			var cache = memoized.cache;
+			var args  = Array.prototype.slice.call(arguments);
+			var key   = resolver.apply(this, args);
+			if(key in cache) {
+			  console.log('hit cache');
+			  return cache[key];
+			}
+			var result = fn.apply(this, arguments);
+			cache[key] = result;
+			return result;
+		  };
+		  memoized.cache = {};
+		  return memoized;
+		}
 
         GG.translate_mso_features = function( html ) {
             
@@ -59,6 +83,7 @@
             html = GG.convert_imgs(html);
             html = GG.convert_svgs(html);
             html = GG.convert_canvas(html);
+//            html = GG.append_imgdata(html);
 
             return html;
         }
@@ -119,7 +144,7 @@
         GG.convert_imgs = function( html ) {
             //make sure all standard images use absolute path 
             var thtml = $('<div>' + html + '</div>' );
-            imgs = thtml.find('svg');
+            imgs = thtml.find('img');
             imgs.each(function() {
                 $(this).attr( 'src', $(this)[0].src );
             });
@@ -128,25 +153,11 @@
         }
 
         GG.convert_svgs = function( html ) {
-            //TODO - convert svgs to png 
-            //https://gist.github.com/Caged/4649511
-            //http://stackoverflow.com/questions/8499633/how-to-display-base64-images-in-html
-            //it seems word actually can't display an svg without first converting to canvas then png or some such
-            //probably want to do this eventually 
-            //https://github.com/gabelerner/canvg
+
             if( options.convertsvgs ) {
                 var thtml = $('<div>' + html + '</div>' );
                 svgs = thtml.find('svg');
-
-                var xser = new XMLSerializer();
-                svgs.each(function() {
-                    var xml = xser.serializeToString(this);
-                    var data = "data:image/svg+xml;base64," + btoa(xml);
-                    var img = new Image();
-                    img.setAttribute('src', data);
-                    $(this).replaceWith( img );
-                });
-                html = thtml.html();
+                //TODO - convert each to canvas and replace
             }
             return html;
 
@@ -159,12 +170,39 @@
 
                 canvases.each(function() {
                     var img = new Image();
-                    img.setAttribute('src', this.toDataURL());
+                    img.setAttribute('src', GG.get_canvas_src_attr(this));
                     $(this).replaceWith( img );
                 });
                 html = thtml.html();
             }
             return html;
+        }
+
+        GG.savepng = function( e ) {
+            var ret = GG.pngname($(e).html());
+            e.toBlob(function(blob) {
+                saveAs( blob, GG.pngname($(e).html()) );
+            });
+            return ret;
+        }
+
+		GG.get_png_name = function( html ) {
+			var inc = ++ii;
+			return ( now + '.image' + ii + '.png' );
+		}
+
+        GG.append_imgdata = function(html) {
+            if(options.img_datahtml) {
+                var thtml = $('<div>' + html + '</div>' );
+                imgs = thtml.find('body').append(imgdata);
+                html = thtml.html();
+            }
+            return html;
+        }
+
+        GG.get_canvas_src_attr = function(e) {
+            var n = GG.savepng(e);
+            return '#' + options.htmlboundary + n;
         }
 
         GG.convert_totalpage = function(html) {
@@ -246,6 +284,20 @@
             return toc;
         }
 
+        //TODO - figure out a way to simulate a right mpuse click, update fields
+
+        
+        GG.include_css = function( html ) {
+            //adding any header information that may be pertinent in teh copied html
+            var tags = ['style', 'link'];
+            for( i = 0; i < tags.length ; ++i ) {
+                $(document).find(tags[i]).each( function( ) {
+                    html += ( '\n' + $(this)[0].outerHTML + '\n' );
+                } );
+            }
+            return html;
+        }
+
         GG.html = function() {
             if( !$(options.area).length ) {
                 return null;
@@ -260,14 +312,14 @@
             html += ('<w:Zoom>'+ options.zoom +'</w:Zoom>\n');
             html += '<w:DoNotOptimizeForBrowser/>\n';
             html += '</w:WordDocument>\n';
+            html += '<o:OfficeDocumentSettings>\n';
+            html += '<o:AllowPNG/>\n';
+            html +='</o:OfficeDocumentSettings>\n';
             html += '</xml>\n';
             html += '<![endif]-->\n';
             html += '';
 
-            //adding any header information that may be pertinent in teh copied html
-            $(document).find('style').each( function( ) {
-                html += ( '\n' + $(this)[0].outerHTML + '\n' );
-            } );
+            html = GG.include_css( html );
             //adding in mso style necessesities
             html += '<style>\n';
             html += '<!--\n';
@@ -298,8 +350,6 @@
             html += ( $(options.area).length ? 
                     GG.translate_mso_features( $(options.area).html() ) : '' );
 
-//            //add header footer content
-//            html += ( $(options.headerfooter).length ? $(options.headerfooter).html() : '' );
 
             //close body
             html += '</div></body>\n';
@@ -309,9 +359,13 @@
             return html;
         }
 
-        options.html = GG.html();
+		//memoized fns
+		GG.pngname = GG.memoize(GG.get_png_name);
 
-        if( options.html && options.finishaction ) {
+        //execution
+        gghtml = GG.html();
+        gghtml = gghtml.replace( '#' + options.htmlboundary, '' );
+        if( gghtml && options.finishaction ) {
             options.finishaction();   
         }
 

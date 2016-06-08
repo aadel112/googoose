@@ -1,7 +1,10 @@
 <html>
 <head>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script type="text/javascript" src="http://test.aadel112.com/js/jquery.googoose.js"></script>
+<script type="text/javascript" src="js/jquery.googoose.js"></script>
+<script type="text/javascript" src="js/vendor/FileSaver.js"></script>
+<script type="text/javascript" src="js/vendor/Blob.js"></script>
+<script type="text/javascript" src="js/vendor/canvas-toBlob.js"></script>
 
 <style>
     #googoose-footer {
@@ -72,8 +75,7 @@ $(document).ready(function() {
     ctx.strokeText("Hello World",10,50);
 
     var o = {
-        download: 0,
-        filename: 'test.doc'
+        download: 1
     };
     $(document).googoose(o);
 });
