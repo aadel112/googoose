@@ -1,5 +1,5 @@
 /*!
- * googoose 1.0.0
+ * googoose 1.0.1
  * https://github.com/aadel112/googoose/js/jquery.googoose.js
  * @license Apache 2.0
  *
@@ -12,17 +12,16 @@
         var GG = $.fn.googoose;
         var ii = 0,
             gghtml = '',
-            imgdata = '',
             now = new Date().getTime();
-//            partstring = '----Googoose.Boundary';
-
-//        imgdata = '\n\nMIME-Version: 1.0\nContent-Type: multipart/related;\nboundary="' + partstring + '"\n\n';
 
         GG.finish = function() {
-           if(options.download) {
+            if(options.download) {
                 //forces download of word doc
-                var file = new File([gghtml], options.filename, {type: "applicatoin/msword;charset=utf-8"});
-                saveAs(file);
+				//not even worrying about Safari and Internet Explorer for now
+               var link = document.createElement('a');
+               link.download = options.filename;
+               link.href = 'data:,' + gghtml;
+               link.click(); 
             } else {
                 document.write( gghtml );
             } 
@@ -41,9 +40,6 @@
             download: true,
             toc: 'div.googoose.toc',
             pagebreak: 'div.googoose.break',
-            convertsvgs: true,
-            convertcanvas: true,
-            imgdir: 'img',
             headerarea: 'div.googoose.header',
             footerarea: 'div.googoose.footer',
             headerid: 'googoose-header',
@@ -52,8 +48,7 @@
             footermargin: '.5in',
             currentpage: 'span.googoose.currentpage',
             totalpage: 'span.googoose.totalpage',
-            htmlboundary: '--',
-            finishaction: GG.finish
+            finishaction: GG.finish,
         }, options );
 
 		//http://requiremind.com/memoization-speed-up-your-javascript-performance/
@@ -76,14 +71,10 @@
 		}
 
         GG.translate_mso_features = function( html ) {
-            
             html = GG.convert_pagebreaks(html);
             html = GG.convert_toc(html);
             html = GG.convert_hdrftr(html);
             html = GG.convert_imgs(html);
-            html = GG.convert_svgs(html);
-            html = GG.convert_canvas(html);
-//            html = GG.append_imgdata(html);
 
             return html;
         }
@@ -130,7 +121,6 @@
                 html = thtml.html();
             }
             if( fvis ) {
-                var thtml = $('<div>' + html + '</div>' );
                 var new_footer = thtml.find(options.footerarea).html();
                 thtml.find(options.footerarea).replaceWith('');
                 thtml.find('table#' + options.headerfooterid + ' .f').append( 
@@ -150,59 +140,6 @@
             });
             html = thtml.html();
             return html;
-        }
-
-        GG.convert_svgs = function( html ) {
-
-            if( options.convertsvgs ) {
-                var thtml = $('<div>' + html + '</div>' );
-                svgs = thtml.find('svg');
-                //TODO - convert each to canvas and replace
-            }
-            return html;
-
-        }
-
-        GG.convert_canvas = function(html) {
-            if(options.convertcanvas) {
-               var thtml = $('<div>' + html + '</div>' );
-                canvases = thtml.find('canvas');
-
-                canvases.each(function() {
-                    var img = new Image();
-                    img.setAttribute('src', GG.get_canvas_src_attr(this));
-                    $(this).replaceWith( img );
-                });
-                html = thtml.html();
-            }
-            return html;
-        }
-
-        GG.savepng = function( e ) {
-            var ret = GG.pngname($(e).html());
-            e.toBlob(function(blob) {
-                saveAs( blob, GG.pngname($(e).html()) );
-            });
-            return ret;
-        }
-
-		GG.get_png_name = function( html ) {
-			var inc = ++ii;
-			return ( now + '.image' + ii + '.png' );
-		}
-
-        GG.append_imgdata = function(html) {
-            if(options.img_datahtml) {
-                var thtml = $('<div>' + html + '</div>' );
-                imgs = thtml.find('body').append(imgdata);
-                html = thtml.html();
-            }
-            return html;
-        }
-
-        GG.get_canvas_src_attr = function(e) {
-            var n = GG.savepng(e);
-            return '#' + options.htmlboundary + n;
         }
 
         GG.convert_totalpage = function(html) {
@@ -279,8 +216,6 @@
             toc += '<![endif]-->\n';
             toc += '</p>\n';
 
-//            toc += '<br clear=all style=\'mso-special-character:line-break;page-break-before:always\'>\n';
-
             return toc;
         }
 
@@ -347,9 +282,9 @@
             html += ('<body lang=' + options.lang + '>\n<div class=Container>');
 
             //add area content
-            html += ( $(options.area).length ? 
-                    GG.translate_mso_features( $(options.area).html() ) : '' );
-
+            $(options.area).each(function(){
+                html += GG.translate_mso_features($(this).html());
+            });
 
             //close body
             html += '</div></body>\n';
@@ -360,11 +295,10 @@
         }
 
 		//memoized fns
-		GG.pngname = GG.memoize(GG.get_png_name);
+//		GG.pngname = GG.memoize(GG.get_png_name);
 
         //execution
         gghtml = GG.html();
-        gghtml = gghtml.replace( '#' + options.htmlboundary, '' );
         if( gghtml && options.finishaction ) {
             options.finishaction();   
         }

@@ -57,7 +57,6 @@ The content that is rendered to a Word doc will need to be wrapped in a div with
 * download: true - used in the default finish action. determines whether the page should be downloaded as a Word document or displayed as HTML.
 * toc: 'div.googoose.toc' - if used by the developer this jQuery selector will translate into a Word table of contents.
 * pagebreak: 'div.googoose.break' - if used by the developer at this jQuery selector will translate into a Microsoft Word page break.
-* convertcanvas: true - this option is currently unused.
 * headerarea: 'div.googoose.header' - the content in this jQuery selector will be put in the Microsoft Word document header.
 * footerarea: 'div.googoose.footer' - the content in this jQuery selector will be put in the document footer.
 * headerid: 'googoose-header' - used solely by the googoose internals
@@ -67,10 +66,11 @@ The content that is rendered to a Word doc will need to be wrapped in a div with
 * currentpage: 'span.googoose.currentpage' - generally used in headers and Footers this whole display the current page number.
 * totalpage: 'span.googoose.totalpage' - generally displayed in headers and Footers this jQuery selector when put into the HTML content will display the number of total pages.
 * finishaction: GG.finish - this is the default action that is called after the HTML has been rendered.
-* html: null - becomes non-null after the HTML has been rendered
 
 ## To come
-I'm still struggling with getting svg and canvas images to display properly. To me this is a critical feature that I want to provide, and it's one of the primary reasons for doing this in javascript. Ideally, the developer will be able to simply wait for an event trigger that signifies that all svgs/canvas images have finished being rendered, and then be able to invoke googoose.
+I've abandoned trying to make canvases and SVGs work for now. The developer can make this work by saving the canvas and SVG elements before invoking googoose on the server and then setting the source of the image to be the URL of the save to canvas, referencing the server URL.
+
+I'm currently only working on bug fixes, and making sure the in implmentation is working.
 
 ## More
 You can visit my [blog](http://aadel112.com). I plan on putting more content regarding googoose on there. You can [contribute by donating](https://www.paypal.me/aadel112/5). Even $5 would be greatly appreciated. 
