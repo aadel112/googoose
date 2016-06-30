@@ -5,12 +5,12 @@ A jquery plugin that allows an html page to be converted and/or downloaded into 
 Googose allows you to turn any html content page into a properly formatted Microsoft Word (.doc) file.
 
 ## Benefits
-* You now have the aility to view rich web content, such as canvas and svg elements in MS Word
+* You now have the aility to view rich web content.
 * You can generate word documents programatically without doing a whole lot of work, using a third party library, etc
 * You can integrate this directly into sites with wysiwyg editors (eg:Wordpress). There is no need to install a plugin.
 
 ## Status
-This is the initial minimum viable solution. svgs and canvas elements are not working, although I do have a plan for them. You may also find bugs. It's only been tested by me for the example html file.
+This is pretty close two as fully-fledged as it's going to be. Right now I'm just hardening it and working on bug fixes.
 
 ### Requirements
 As you can see, you are required to include jquery in your page before googose
@@ -36,9 +36,7 @@ $(document).ready(function() {
 </script>
 ```
 
-This will render the page this is included on to a word document, and force download. The default action is to use the data download attribute, which has limited support at this time, specifically, it's not supported by IE at all. This axtion can be overridden.
-
-The content that is rendered to a Word doc will need to be wrapped in a div with tje classname googoose, by default.
+The content that is rendered to a Word doc will need to be wrapped in a div with the classname googoose-wrapper, by default.
 
 ``` html
 <div class="googoose-wrapper"></div>
