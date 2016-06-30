@@ -16,8 +16,7 @@ This is the initial minimum viable solution. svgs and canvas elements are not wo
 As you can see, you are required to include jquery in your page before googose
 
 ``` javascript
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>                      
-
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>              
 <script type="text/javascript" src="http://github.com/aadel112/googoose/js/jquery.googoose.js"></script>
 ```
 
@@ -42,11 +41,11 @@ This will render the page this is included on to a word document, and force down
 The content that is rendered to a Word doc will need to be wrapped in a div with tje classname googoose, by default.
 
 ``` html
-<div class="googoose"></div>
+<div class="googoose-wrapper"></div>
 ```
 
 ## Options
-* area: 'div.googoose' - This is the default selector of html to wrap the Word doc in.
+* area: 'div.googoose-wrapper' - This is the default selector of html to wrap the Word doc in.
 * headerfooterid: 'googoose-hdrftrtbl' - This is used by the internals of googoose to manufacture headers and footers.
 * margins: '1.0in' - the default CSS origins of the Word document. 
 * zoom: '75' - the default Zoom percentage when the Word document opens.
@@ -54,7 +53,6 @@ The content that is rendered to a Word doc will need to be wrapped in a div with
 * size: '8.5in 11.0in' - the default size of the Word document.
 * display: 'Print' - the default display mode to open the Word document in.
 * lang: 'en-US' - the language on the page. defaults to English US.
-* download: true - used in the default finish action. determines whether the page should be downloaded as a Word document or displayed as HTML.
 * toc: 'div.googoose.toc' - if used by the developer this jQuery selector will translate into a Word table of contents.
 * pagebreak: 'div.googoose.break' - if used by the developer at this jQuery selector will translate into a Microsoft Word page break.
 * headerarea: 'div.googoose.header' - the content in this jQuery selector will be put in the Microsoft Word document header.
@@ -66,6 +64,8 @@ The content that is rendered to a Word doc will need to be wrapped in a div with
 * currentpage: 'span.googoose.currentpage' - generally used in headers and Footers this whole display the current page number.
 * totalpage: 'span.googoose.totalpage' - generally displayed in headers and Footers this jQuery selector when put into the HTML content will display the number of total pages.
 * finishaction: GG.finish - this is the default action that is called after the HTML has been rendered.
+* html: null - gets populated before finishaction
+* initobj: document - the root node
 
 ## To come
 I've abandoned trying to make canvases and SVGs work for now. The developer can make this work by saving the canvas and SVG elements before invoking googoose on the server and then setting the source of the image to be the URL of the save to canvas, referencing the server URL.
@@ -73,4 +73,5 @@ I've abandoned trying to make canvases and SVGs work for now. The developer can 
 I'm currently only working on bug fixes, and making sure the in implmentation is working.
 
 ## More
+A perfectly good full example can be found [here](https://github.com/aadel112/wp-googoose) in this WordPress plugin which hooks googoose functionality to the tinymce editor.
 You can visit my [blog](http://aadel112.com). I plan on putting more content regarding googoose on there. You can [contribute by donating](https://www.paypal.me/aadel112/5). Even $5 would be greatly appreciated. 
