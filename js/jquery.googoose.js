@@ -104,11 +104,19 @@
             }
         }
 
+        // http://stackoverflow.com/questions/7394748/whats-the-right-way-to-decode-a-string-that-has-special-html-entities-in-it
+        GG.decodeHtmlEntity = function(str) {
+            return str.replace(/&#(\d+);/g, function(match, dec) {
+            return String.fromCharCode(dec);
+            });
+        }
+
+
         GG.translate_mso_features = function( html ) {
             if( options.debug ) 
                 GG.debug_fn('GG.translate_mso_features');
 
-
+            html = GG.decodeHtmlEntity(html);
             html = GG.convert_pagebreaks(html);
             html = GG.convert_toc(html);
             html = GG.convert_hdrftr(html);
