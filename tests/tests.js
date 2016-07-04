@@ -8,5 +8,10 @@ QUnit.test( "pre test", function( assert ) {
     assert.ok(newlines, "Passed"); 
 });
 
+QUnit.test( "htmlentity test", function( assert ) {
+    var entitiesReg = new RegExp(/&#(\d+);/g);
+    var entities = entitiesReg.test($(gg.html).find('.pre-test')[0].outerHTML);
+    assert.ok(!entities, "Passed"); 
+});
 
 
