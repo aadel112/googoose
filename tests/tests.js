@@ -1,4 +1,4 @@
-var gg = $(document).googoose({
+var gg = $.fn.googoose({
     finishaction: null
 });
 
@@ -8,10 +8,20 @@ QUnit.test( "pre test", function( assert ) {
     assert.ok(newlines, "Passed"); 
 });
 
+// all HTML entities should be decoted to the human-readable representation
 QUnit.test( "htmlentity test", function( assert ) {
     var entitiesReg = new RegExp(/&#(\d+);/g);
     var entities = entitiesReg.test($(gg.html).find('.pre-test')[0].outerHTML);
     assert.ok(!entities, "Passed"); 
+});
+
+//empty selected should return no HTML
+QUnit.test( "empty selector test", function( assert ) {
+    var gge = $.fn.googoose({
+        finishaction: null, 
+        area: 'div#fakeid'
+    });
+    assert.ok(!gge.html, "Passed"); 
 });
 
 
