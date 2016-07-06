@@ -9,7 +9,7 @@
 
     $.fn.googoose = function( options ) {
 
-        var GG = $.fn.googoose;
+        var GG = this;
         var now = new Date().getTime();
         var proto = new RegExp(/^(http|https|file):/);
         var ab = new RegExp(/^\//);
@@ -47,7 +47,8 @@
             debugtype: 'alert',
             debug: 0
         }, options );
-
+        GG.options = options;
+        
         //http://requiremind.com/memoization-speed-up-your-javascript-performance/
         GG.memoize = function(fn, resolver) {
             var memoized = function() {
@@ -405,6 +406,7 @@
         if( options.html && options.finishaction ) {
             options.finishaction();   
         }
-        return options;
+//         return options;
+        return GG;
     };
 }( jQuery ));
