@@ -118,11 +118,31 @@
                 GG.debug_fn('GG.translate_mso_features');
 
             html = GG.decodeHtmlEntity(html);
+            html = GG.remove_bad_tags(html);
             html = GG.convert_pagebreaks(html);
             html = GG.convert_toc(html);
             html = GG.convert_hdrftr(html);
             html = GG.convert_imgs(html);
 
+            return html;
+        }
+
+        GG.remove_bad_tags = function( html ) {
+            if( options.debug )
+                GG.debug_fn('GG.remove_bad_tags');
+            var thtml = $(html);
+
+            
+            thtml.find('noscript').each(function() {
+                $(this).replaceWith('');  
+            });
+            thtml.each(function() {
+                if($(this).is(':hidden')){
+                    $(this).remove();
+                }
+            });
+
+            html = thtml[0].outerHTML;
             return html;
         }
 
