@@ -7,7 +7,7 @@
  */
 (function ( $ ) {
 
-    $.fn.googoose = function( options ) {
+    $.fn.googoose = function( options, callback ) {
 
         var GG = this;
         var now = new Date().getTime();
@@ -15,10 +15,16 @@
         var ab = new RegExp(/^\//);
 
         GG.finish = function() {
-            if( options.debug )
+            if( options.debug ) 
                 GG.debug_fn('finish action');
+            if (callback) {
+                var blob = new Blob([options.html], {
+                    type: 'application/msword'
+                });
+                callback(null, blob);
+            } else {
                 GG.saveHtmlAsFile(options.filename, options.html);
-//             document.write( options.html );
+            }
         }
 
         var options = $.extend({
