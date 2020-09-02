@@ -183,8 +183,8 @@
             var fvis = options.footerarea && $(options.footerarea).length;
             if( hvis || fvis ) {
                 var thtml = $('<div>' + html + '</div>' );
-                var hdrftr = $('<table id=\'' + options.headerfooterid + '\'></table>');
-                hdrftr.append('<tr><td class=h></td><td class=f></td></tr>');
+                var hdrftr = $('<div id=\'' + options.headerfooterid + '\'></div>');
+                hdrftr.append('<div><div class=headerArea></div><div class=footerArea></div></div>');
                 thtml.append(hdrftr);
                 html = thtml[0].outerHTML;
 
@@ -196,14 +196,14 @@
             if( hvis ) {
                 var new_header = thtml.find(options.headerarea)[0].outerHTML;
                 thtml.find(options.headerarea).replaceWith('');
-                thtml.find('table#' + options.headerfooterid + ' .h').append( 
+                thtml.find('#' + options.headerfooterid + ' .h').append( 
                         GG.headerstart() + new_header + GG.headerend() );
                 html = thtml[0].outerHTML;
             }
             if( fvis ) {
                 var new_footer = thtml.find(options.footerarea)[0].outerHTML;
                 thtml.find(options.footerarea).replaceWith('');
-                thtml.find('table#' + options.headerfooterid + ' .f').append( 
+                thtml.find('#' + options.headerfooterid + ' .f').append( 
                         GG.footerstart() + new_footer + GG.footerend());
                 html = thtml[0].outerHTML;
             }
