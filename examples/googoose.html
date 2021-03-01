@@ -47,6 +47,7 @@
     <h2>Child Elememts</h2>
     <p>
     When I have a child header Word automatically determines that it belongs to the parent.
+    &#128512;
     </p>
     <div class='googoose break'></div>
     <h1>Page Breaks</h1>
@@ -82,10 +83,9 @@ $(document).ready(function() {
 
 
     var o = {
-        download: 0,
         filename: 'test.doc'
     };
-    $(document).googoose(o);
+    $(document).googoose(o); //, function(_, blob) { console.log( blob ) } );
 });
 </script>
 </body>

@@ -17,7 +17,7 @@ As you can see, you are required to include jquery in your page before googose
 
 ``` javascript
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>              
-<script type="text/javascript" src="http://github.com/aadel112/googoose/js/jquery.googoose.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/aadel112/googoose@master/jquery.googoose.js"></script>
 ```
 
 I see no reason that jquery 1.5 or earlier wouldn't be supported, but I haven't tested this.
@@ -72,4 +72,7 @@ I'm currently only working on bug fixes, and making sure the in implmentation is
 
 ## More
 A perfectly good full example can be found [here](https://github.com/aadel112/wp-googoose) in this WordPress plugin which hooks googoose functionality to the tinymce editor.
-You can visit my [blog](http://aadel112.com). I plan on putting more content regarding googoose on there. You can [contribute by donating](https://www.paypal.me/aadel112/5). Even $5 would be greatly appreciated. 
+You can visit my [blog](http://aadel112.com). I plan on putting more content regarding googoose on there. You can [contribute by donating](https://www.paypal.me/aadel112/5). Even $5 would be greatly appreciated.
+
+## Update - 2021-02-28
+It's been a long time since I've looked at this project. I made it for a specific period in time in my life when it was needed, but I've been encouraged by the use it seems to have gotten, and I believe I even got a donation from it, and I have set it as a goal to try to maintain this project at least once a week. As always, though, contributors are more than welcome.
