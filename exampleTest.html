@@ -3,38 +3,37 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Lorem ipsum dolor sit amet.</title>
-    <!-- <link rel="stylesheet" type="text/css" href="./preview-files/preview-style.css"> -->
 </head>
 
-<body class="preview">
-    <script type="text/javascript" language="JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-    <script type="text/javascript" language="JavaScript" src="jquery.googoose.js"></script>
+<script type="text/javascript" language="JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" language="JavaScript" src="jquery.googoose.js"></script>
 
-    <script>
-        function exportDoc() {
-            var o = {
-                filename: 'test.doc'
-            };
-            $(document).googoose(o);
+<script>
+    function exportDoc() {
+        var o = {
+            filename: 'test.doc'
         };
-    </script>
+        $(document).googoose(o);
+    };
+</script>
+
+<body class="preview">
     
     <div class="exportButton"><button onclick="exportDoc()">Export to Microsoft Word</button></div>
     
     <div class="googoose-wrapper">
-        <div id="googoose-hdrftrtbl">
-            <div id="googoose-header">
-                <div class="googoose header">
-                    <strong
-                        style="font-size:large; font-style:normal; font-weight:bold; font-size:24px; align-content:center;">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </strong>
-                </div>
-            </div>
-            <div id="googoose-footer">
-                <div class="googoose footer"> In ut tempor neque, sit amet imperdiet quam. </div>
-            </div>
+        <div class="googoose header">
+            <strong
+                style="font-size:large; font-style:normal; font-weight:bold; font-size:24px; align-content:center;">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </strong>
         </div>
+        <div class="googoose footer">
+            In ut tempor neque, sit amet imperdiet quam. 
+            <span class = "googoose currentpage"></span>
+            <span class = "googoose totalpage"></span>
+        </div>
+
         <p>Donec lacinia, ante lacinia bibendum finibus, tellus velit efficitur dui, sit amet elementum justo metus non
             lectus. Donec consectetur et quam efficitur porttitor. Duis nisi lacus, aliquet id nibh ut, pellentesque
             auctor dolor. Morbi condimentum libero vel odio porttitor, eget pellentesque tellus accumsan. Nam sit amet
@@ -63,6 +62,7 @@
             nunc ligula. Aenean rutrum venenatis libero sed vulputate. Donec dignissim lacus non orci cursus, id
             elementum velit suscipit. Nulla volutpat, eros nec egestas faucibus, odio elit semper lorem, mattis viverra
             lorem dolor eu felis.</p>
+
     </div>
 </body>
 
