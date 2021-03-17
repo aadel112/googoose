@@ -184,7 +184,7 @@
             if( hvis || fvis ) {
                 var thtml = $('<div>' + html + '</div>' );
                 var hdrftr = $('<div id=\'' + options.headerfooterid + '\'></div>');
-                hdrftr.append('<div><div class=headerArea></div><div class=footerArea></div></div>');
+                hdrftr.append('<div> <div class=h></div> <div class=f></div> </div>');
                 thtml.append(hdrftr);
                 html = thtml[0].outerHTML;
 
@@ -195,14 +195,14 @@
             var thtml = $(html);
             if( hvis ) {
                 var new_header = thtml.find(options.headerarea)[0].outerHTML;
-                thtml.find(options.headerarea).replaceWith('');
+                thtml.find(options.headerarea)[0].replaceWith('');
                 thtml.find('#' + options.headerfooterid + ' .h').append( 
                         GG.headerstart() + new_header + GG.headerend() );
                 html = thtml[0].outerHTML;
             }
             if( fvis ) {
                 var new_footer = thtml.find(options.footerarea)[0].outerHTML;
-                thtml.find(options.footerarea).replaceWith('');
+                thtml.find(options.footerarea)[0].replaceWith('');
                 thtml.find('#' + options.headerfooterid + ' .f').append( 
                         GG.footerstart() + new_footer + GG.footerend());
                 html = thtml[0].outerHTML;
@@ -283,6 +283,7 @@
             html += '<div style=\'mso-element:footer\' id=' + options.footerid + '>';
             return html;
         }
+
         GG.footerend = function() {
             if( options.debug )
                 GG.debug_fn('GG.footerend');
@@ -334,7 +335,7 @@
         GG.include_css = function( html ) {
             if( options.debug ) 
                 GG.debug_fn('GG.include_css');
-            //adding any header information that may be pertinent in teh copied html
+            //adding any header information that may be pertinent in the copied html
             var tags = ['style', 'link'];
             for( i = 0; i < tags.length ; ++i ) {
                 $(document).find(tags[i]).each( function( ) {
