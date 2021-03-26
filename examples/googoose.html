@@ -2,6 +2,7 @@
 <head>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/aadel112/googoose@master/jquery.googoose.js"></script>
+<!--<script type="text/javascript" src="../jquery.googoose.js"></script>-->
 
 <style>
     #googoose-footer {
@@ -14,6 +15,7 @@
         width: 100%;
         text-align: center;
     }
+
 </style>
 
 </head>
@@ -23,6 +25,11 @@
     <div class='googoose header'>
         Hello World! Header
     </div>
+    <div class='googoose footer'>
+        Page <span class='googoose currentpage'></span>
+        of <span class='googoose totalpage'></span>
+    </div>
+
     <div class='googoose cover'>
         <p style='font-size:42px;text-align:center;'>
         Hello World!
@@ -58,11 +65,6 @@
     <div class='googoose break'></div>
 
     <canvas id='hello-canvas'></canvas>
-
-    <div class='googoose footer'>
-        Page <span class='googoose currentpage'></span>
-        of <span class='googoose totalpage'></span>
-    </div>
 </div>
 
 <script type="text/javascript">

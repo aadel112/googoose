@@ -30,7 +30,6 @@
         var options = $.extend({
             // These are the defaults.
             area: 'div.googoose-wrapper',
-            headerfooterid: 'googoose-hdrftrtbl',
             margins: '1.0in',
             zoom: '75',
             filename: 'Doc1_' + now + '.doc',
@@ -54,26 +53,7 @@
             debug: 0
         }, options );
         GG.options = options;
-        
-        //http://requiremind.com/memoization-speed-up-your-javascript-performance/
-        GG.memoize = function(fn, resolver) {
-            var memoized = function() {
-                resolver  = resolver || JSON.stringify;
-                var cache = memoized.cache;
-                var args  = Array.prototype.slice.call(arguments);
-                var key   = resolver.apply(this, args);
-                if(key in cache) {
-                    GG.debug_fn('hit cache');
-                    return cache[key];
-                }
-                var result = fn.apply(this, arguments);
-                cache[key] = result;
-                return result;
-            };
-            memoized.cache = {};
-            return memoized;
-        }
-
+       
         GG.debug_fn = function( args ) {
             options.debugtype == 'console' ? console.log( args ) : alert( args );
         }
@@ -182,29 +162,17 @@
             var hvis = options.headerarea && $(options.headerarea).length;
             var fvis = options.footerarea && $(options.footerarea).length;
             if( hvis || fvis ) {
-                var thtml = $('<div>' + html + '</div>' );
-                var hdrftr = $('<div id=\'' + options.headerfooterid + '\'></div>');
-                hdrftr.append('<div> <div class=h></div> <div class=f></div> </div>');
-                thtml.append(hdrftr);
-                html = thtml[0].outerHTML;
-
                 html = GG.convert_totalpage(html);
                 html = GG.convert_currentpage(html);
             }
 
             var thtml = $(html);
             if( hvis ) {
-                var new_header = thtml.find(options.headerarea)[0].outerHTML;
-                thtml.find(options.headerarea)[0].replaceWith('');
-                thtml.find('#' + options.headerfooterid + ' .h').append( 
-                        GG.headerstart() + new_header + GG.headerend() );
+                thtml.find(options.headerarea).replaceWith(GG.headerstart() + thtml.find(options.headerarea).html() + GG.headerend());
                 html = thtml[0].outerHTML;
             }
             if( fvis ) {
-                var new_footer = thtml.find(options.footerarea)[0].outerHTML;
-                thtml.find(options.footerarea)[0].replaceWith('');
-                thtml.find('#' + options.headerfooterid + ' .f').append( 
-                        GG.footerstart() + new_footer + GG.footerend());
+                thtml.find(options.footerarea).replaceWith(GG.footerstart() + thtml.find(options.footerarea).html() + GG.footerend())
                 html = thtml[0].outerHTML;
             }
             return html;
@@ -358,7 +326,7 @@
 //                 $(this)[0].outerHTML = $(this)[0].outerHTML.replace(/\n/g, "<br />\n");
 //             });
             // adding the standard mso header 
-            var html = '<html xmlns:o=\'urn:schemas-microsoft-com:office:office\' xmlns:w=\'urn:schemas-microsoft-com:office:word\' xmlns=\'http://www.w3.org/TR/REC-html40\'>\n';
+            var html = '<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o=\'urn:schemas-microsoft-com:office:office\' xmlns:w=\'urn:schemas-microsoft-com:office:word\' xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns=\'http://www.w3.org/TR/REC-html40\'>\n';
             html += '<head>\n';
             html += '<meta charset=\'utf-8\'\n';
             html += '<!--[if gte mso 9]>\n';
@@ -378,6 +346,9 @@
             html = GG.include_css( html );
             //adding in mso style necessesities
             html += '<style>\n';
+            html += '#' + options.headerid + ', #' + options.footerid + '{\n';
+            html += '\tmargin: 0 0 0 9in;'; 
+            html += '}\n';
             html += '<!--\n';
             html += '@page {\n';
             html += ('\tsize:' + options.size + ';\n');
@@ -390,9 +361,6 @@
             html += ('\tmso-footer:' + options.footerid + ';\n' );
             html += '}\n';
             html += 'div.Container { page:Container; }\n';
-            html += ( 'table#' + options.headerfooterid + ' {\n' );
-            html += '\tmargin:0in 0in 0in 9in;\n';
-            html += '}\n';
             html += '-->\n';
             html += '</style>\n';
 
@@ -423,16 +391,13 @@
             return html;
         }
 
-        //memoized fns
-        //		GG.pngname = GG.memoize(GG.get_png_name);
-
-
         //execution
         if( options.debug )
             GG.debug_fn('googoose exec');
         options.html = GG.html();
         if( options.html && options.finishaction ) {
-            options.finishaction();   
+            options.finishaction();  
+//             console.log(options.html)
         }
 //         return options;
         return GG;
