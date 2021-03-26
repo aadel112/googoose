@@ -5,3 +5,4 @@ Immediate Roadmap 2021-03-02
 - make cross platform
 - add better automated tests
 - provide a minified dist
+- support different orientations
