@@ -32,6 +32,7 @@
             area: 'div.googoose-wrapper',
             margins: '1.0in',
             zoom: '75',
+            base64 : false, //used for base64 images of type i.e <img src="data:image/jpeg;base64,..." >
             filename: 'Doc1_' + now + '.doc',
             size: '8.5in 11.0in',
             display: 'Print',
@@ -108,7 +109,8 @@
             html = GG.convert_pagebreaks(html);
             html = GG.convert_toc(html);
             html = GG.convert_hdrftr(html);
-            html = GG.convert_imgs(html);
+            if( !options.base64 ) //bypasses the conversion if the img is src base64.
+                html = GG.convert_imgs(html);
 
             return html;
         }
@@ -193,6 +195,7 @@
                 } else if( ab.test( src ) ) {
                     src = t + src; 
                 } else {
+                    //Likley require a warning here for errors to inform user to use base64 bypass option.
                    var p = l.path.replace('/\/[^\/.]+$/', '/' );
                    src = t + p + src;
                 }
