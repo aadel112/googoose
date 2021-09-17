@@ -40,12 +40,13 @@ The content that is rendered to a Word doc will need to be wrapped in a div with
 
 ``` html
 <div class="googoose-wrapper"></div>
-```
+
 
 ## Options
 * area: 'div.googoose-wrapper' - This is the default selector of html to wrap the Word doc in.
 * headerfooterid: 'googoose-hdrftrtbl' - This is used by the internals of googoose to manufacture headers and footers.
 * margins: '1.0in' - the default CSS origins of the Word document. 
+* base64: 'false' - set to true for when using base64 images of type i.e ``` <img src="data:image/jpeg;base64,..." >```. 
 * zoom: '75' - the default Zoom percentage when the Word document opens.
 * filename: null - the file name to save as. used only by the default finish action.
 * size: '8.5in 11.0in' - the default size of the Word document.
